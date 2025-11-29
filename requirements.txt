@@ -12,3 +12,4 @@ openai
 python-dotenv
 python-multipart
 httpx
+google-generativeai

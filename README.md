@@ -3,12 +3,12 @@
 FastAPI backend for qualifying real-estate leads with JWT auth, lead scoring, properties, and multi-agency support.
 
 ## Setup
-1. Create and activate a virtualenv.
+1. Create and activate a virtualenv (for local dev).
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Configure environment in `.env` (Supabase-only, required):
+3. Configure environment in `.env` (copy `.env.example`):
    ```bash
    SECRET_KEY=change-me
    ACCESS_TOKEN_EXPIRE_MINUTES=1440
@@ -16,6 +16,10 @@ FastAPI backend for qualifying real-estate leads with JWT auth, lead scoring, pr
    SUPABASE_URL=your-supabase-url
    SUPABASE_KEY=service-role-or-secret
    SUPABASE_BUCKET=posts
+   LLM_MODEL=gpt-4o-mini
+   LLM_TEMPERATURE=0.2
+   OPENAI_API_KEY=your-openai-key
+   N8N_WEBHOOK_URL=
    ```
 
 ## Run
@@ -29,6 +33,23 @@ uvicorn main:app --reload
 - Register: `POST /api/auth/register`
 - Login: `POST /api/auth/login` (OAuth2 password flow). Use returned bearer token for protected routes.
 - Roles: JWT incluye `role` (`user`, `agency_admin`, `superadmin`) y `agency_id`. Registro web crea únicamente rol `user`. Operaciones de agencias y publicaciones requieren rol `agency_admin`/`superadmin`.
+
+## Docker
+
+Build:
+```bash
+docker build -t lead-agent-api .
+```
+
+Run:
+```bash
+docker run --env-file .env -p 8000:8000 lead-agent-api
+```
+
+docker-compose:
+```bash
+docker compose up --build
+```
 
 ## Alembic
 Initialize DB metadata automatically on startup, or manage migrations:
