@@ -51,6 +51,8 @@ docker-compose:
 docker compose up --build
 ```
 
+Nota: el contenedor respeta la variable `PORT` si la plataforma la inyecta (ej. Railway); de lo contrario usa 8000 por defecto.
+
 ## Alembic
 Initialize DB metadata automatically on startup, or manage migrations:
 ```bash
